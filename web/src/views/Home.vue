@@ -30,19 +30,28 @@
       </div>
     </div>
     <!-- end of nav icons -->
-    <!-- <m-card icon="menu" title="新闻资讯"> -->
-      <m-list-card icon="menu" title="新闻资讯" :categories="newsCats">
-        <template #items="{ category }">
-          <div class="py-2 fs-lg d-flex" v-for="(news, nIndex) in category.newsList" :key="nIndex">
-            <span>[{{news.categoryName}}]</span>
-            <span class="px-2">|</span>
-            <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{news.title}}</span>
-            <span class="text-gray-1 fs-sm">{{news.createdAt | date}}</span>
+    <m-list-card icon="menu" title="新闻资讯" :categories="newsCats">
+      <template #items="{ category }">
+        <div class="py-2 fs-lg d-flex" v-for="(news, nIndex) in category.newsList" :key="nIndex">
+          <span>[{{news.categoryName}}]</span>
+          <span class="px-2">|</span>
+          <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{news.title}}</span>
+          <span class="text-gray-1 fs-sm">{{news.createdAt | date}}</span>
+        </div>
+      </template>
+    </m-list-card>
+    <m-list-card icon="card-hero" title="英雄列表" :categories="heroCats">
+      <template #items="{ category }">
+        <div class="d-flex flex-wrap" style="margin: 0 -0.5rem;">
+          <div class="p-2 text-center" 
+          style="width: 20%;"
+          v-for="(hero, nIndex) in category.heroList" :key="nIndex">
+            <img :src="hero.avatar" alt="" class="w-100">
+            <div>{{hero.name}}</div>
           </div>
-        </template>
-      </m-list-card>
-    <!-- </m-card> -->
-    <i class="iconfont icon-menu text-primary"></i>
+        </div>
+      </template>
+    </m-list-card>
   </div>
 </template>
 
@@ -57,7 +66,8 @@ export default {
             el: ".pagination-home"
           }
         },
-        newsCats: []
+        newsCats: [],
+        heroCats: []
       }
     },
     filters: {
@@ -67,11 +77,16 @@ export default {
     },
     created() {
       this.fetchNewCats()
+      this.fetchHeroCats()
     },
     methods: {
       async fetchNewCats(){
         const res = await this.$http.get('/news/list')
         this.newsCats = res.data
+      },
+      async fetchHeroCats(){
+        const res = await this.$http.get('/heroes/list')
+        this.heroCats = res.data
       }
     }
   }
