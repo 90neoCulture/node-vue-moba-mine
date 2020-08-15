@@ -161,8 +161,7 @@ export default {
         partners: [],
         scores: {
           difficult: 0
-        },
-        skills: []
+        }
       }
     }
   },
